@@ -1,79 +1,57 @@
-import { NgModule, Component, Input, Attribute } from '@angular/core';
+
+import { NgModule, Component, Input, Attribute, trigger, state, animate, style, transition  } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { HttpModule} from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { Greeter } from './services';
+//import { NextRacesService } from './services';
+
+import { MyCvHeader } from './components/header/header';
+import { MyCvFooter } from './components/footer/footer';
+import { Home } from './pages/home/home';
+import { Projects } from './pages/projects/projects';
+import { Companies } from './pages/companies/companies';
+import { Contact } from './pages/contact/contact';
+//import { RbIndex } from './components/index/index';
+
+//import { RaceTypePipe } from './pipes/race-type-pipe';
+
+//import { NextRaces } from './components/next-races/next-races';
 
 @Component({
-  selector: 'hello',
-  template: '<p>{{ message }}</p>',
+  selector: 'my-cv-app',
+  templateUrl: 'layouts/main.html'
 })
-export class Hello {
-  constructor(greeter: Greeter) {
-    this.message = greeter.say('hello', 'Angular 2');
-  }
-}
 
-@Component({
-  selector: 'ciao',
-  template: '<p>{{ message$ | async }}</p>',
-})
-export class Ciao {
-  constructor(greeter: Greeter, route: ActivatedRoute) {
-    this.message$ = route.params
-      .map(params => greeter.say('ciao', params.name));
-  }
-}
-
-@Component({
-  selector: 'linker',
-  template: '<p><a [href]="url" [title]="name">{{ name }}</a></p>',
-})
-export class Linker {
-  @Input() url;
-
-  constructor(@Attribute('name') name) {
-    this.name = name;
-  }
-}
-
-@Component({
-  selector: 'hello-app',
-  template: `
-    <ul>
-      <li><a [routerLink]="['/']">Hello</a></li>
-      <li><a [routerLink]="['/ciao', 'ng2']">Ciao</a></li>
-    </ul>
-    <router-outlet></router-outlet>
-    <linker name="GitHub" url="https://github.com/shuhei/babel-angular2-app"></linker>
-  `,
-})
-export class HelloApp {
-}
+export class MyCvApp {}
 
 const routing = RouterModule.forRoot([
-  { path: '', component: Hello },
-  { path: 'ciao/:name', component: Ciao },
+  { path: '', component: Home },
+  { path: 'projects', component: Projects },
+  { path: 'companies', component: Companies },
+  { path: 'contact', component: Contact }
 ]);
 
 @NgModule({
   imports: [
     BrowserModule,
     routing,
+    HttpModule
   ],
   declarations: [
-    HelloApp,
-    Hello,
-    Ciao,
-    Linker,
+    MyCvApp,
+    MyCvHeader,
+    MyCvFooter,
+    Home,
+    Projects,
+    Contact,
+    Companies
   ],
   providers: [
-    Greeter,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
-  bootstrap: [HelloApp],
+  bootstrap: [MyCvApp],
 })
-export class AppModule {
-}
+export class AppModule {}

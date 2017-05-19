@@ -1,0 +1,10 @@
+<main>
+  <h2>{{me.name}}</h2>
+  <h3>{{me.title}}</h3>
+  <p>
+    {{me.shortDescription}}
+  </p>
+  <ul>
+    <li *ngFor="let link of links;"><a [routerLink]=[link.href]>{{link.label}}</a></li>
+  </ul>
+</main>
